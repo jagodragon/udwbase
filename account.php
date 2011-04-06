@@ -1,19 +1,10 @@
 <?php
-/*
-* UDWBase: WOWDB Web Interface
-*
-* © UDW 2009-2011
-*
-* Released under the terms and conditions of the
-* GNU General Public License (http://gnu.org).
-*
-*/
 
 // Загружаем файл перевода для smarty
 $smarty->config_load($conf_file,'account');
 
 // Создание аккаунта
-if (($_REQUEST['account']=='signup') and (isset($_POST['username'])) and (isset($_POST['password'])) and (isset($_POST['c_password'])) and ($UDWBaseconf['register']==true))
+if (($_REQUEST['account']=='signup') and (isset($_POST['username'])) and (isset($_POST['password'])) and (isset($_POST['c_password'])) and ($AoWoWconf['register']==true))
 {
 	// Совпадают ли введенные пароли?
 	if ($_POST['password'] != $_POST['c_password'])
@@ -21,17 +12,17 @@ if (($_REQUEST['account']=='signup') and (isset($_POST['username'])) and (isset(
 		$smarty->assign('signup_error', $smarty->get_config_vars('Different_passwords'));
 	} else {
 		// Существует ли уже такой пользователь?
-		if ($rDB->selectCell('SELECT Count(id) FROM ?_account WHERE username=? LIMIT 1', $_POST['username']) == 1)
+		if ($rDB->selectCell('SELECT Count(id) FROM account WHERE username=? LIMIT 1', $_POST['username']) == 1)
 		{
 			$smarty->assign('signup_error', $smarty->get_config_vars('Such_user_exists'));
 		} else {
 			// Вроде все нормально, создаем аккаунт
-			$success = $rDB->selectCell('INSERT INTO ?_account(`username`, `sha_pass_hash`, `email`, `joindate`, `expansion`, `last_ip`)
+			$success = $rDB->selectCell('INSERT INTO account(`username`, `sha_pass_hash`, `email`, `joindate`, `expansion`, `last_ip`)
 				VALUES (?, ?, ?, NOW(), ?, ?)',
 				$_POST['username'],
 				create_usersend_pass($_POST['username'], $_POST['password']),
 				(isset($_POST['email']))? $_POST['email'] : '',
-				$UDWBaseconf['expansion'],
+				$AoWoWconf['expansion'],
 				(isset($_SERVER["REMOTE_ADDR"]))? $_SERVER["REMOTE_ADDR"] : ''
 			);
 			if ($success > 0)
@@ -48,9 +39,8 @@ if (($_REQUEST['account']=='signup') and (isset($_POST['username'])) and (isset(
 
 if (($_REQUEST['account']=='signin') and (isset($_POST['username'])) and (isset($_POST['password'])))
 {
-	//$usersend_pass = create_usersend_pass($_POST['username'], $_POST['password']);
-        $shapass = $_POST['password'];
-	$user = CheckPwd($_POST['username'], $shapass);
+	$usersend_pass = create_usersend_pass($_POST['username'], $_POST['password']);
+	$user = CheckPwd($_POST['username'], $usersend_pass);
 	if ($user==-1)
 	{
 		del_user_cookie();
@@ -65,14 +55,14 @@ if (($_REQUEST['account']=='signin') and (isset($_POST['username'])) and (isset(
 	} else {
 		// Имя пользователя и пароль совпадают
 		$_SESSION['username'] = $user['name'];
-		$_SESSION['shapass'] = $shapass;
+		$_SESSION['shapass'] = $usersend_pass;
 		$_REQUEST['account'] = 'signin_true';
 		$_POST['remember_me'] = (IsSet($_POST['remember_me'])) ? $_POST['remember_me'] : 'no';
 		if ($_POST['remember_me']=='yes')
 		{
 			// Запоминаем пользователя
 			$remember_time = time() + 3000000;
-			SetCookie('remember_me',$_POST['username'].$shapass,$remember_time);
+			SetCookie('remember_me',$_POST['username'].$usersend_pass,$remember_time);
 		} else {
 			del_user_cookie();
 		}
@@ -87,16 +77,14 @@ switch($_REQUEST['account']):
 	case 'signin_false':
 	case 'signin':
 		// Вход в систему
-		$smarty->assign('register', $UDWBaseconf['register']);
+		$smarty->assign('register', $AoWoWconf['register']);
 		$smarty->display('signin.tpl');
 		break;
 	case 'signup_false':
 	case 'signup':
-		// You can change to your realm page
-		//header( 'Location: http://your_realm_regpage' );
+		// Регистрация аккаунта
 		$smarty->display('signup.tpl');
 		break;
-                break;
 	case 'signout':
 		// Выход из пользователя
 		UnSet($user);

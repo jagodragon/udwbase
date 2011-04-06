@@ -21,6 +21,8 @@ global $DB;
 
 $cache_str = (!isset($class)?'x':intval($class)).'_'.(!isset($subclass)?'x':intval($subclass));
 
+$slotsort = $_REQUEST['sl'];
+
 if(!$items = load_cache(7, $cache_str))
 {
 	unset($items);
@@ -35,6 +37,7 @@ if(!$items = load_cache(7, $cache_str))
 			id=displayid
 			{ AND class=? }
 			{ AND subclass=? }
+			{ AND i.InventoryType=?d }
 			ORDER BY quality DESC, name
 			LIMIT 200
 		',
@@ -42,7 +45,8 @@ if(!$items = load_cache(7, $cache_str))
 		($_SESSION['locale'])? $_SESSION['locale']: DBSIMPLE_SKIP,
 		($_SESSION['locale'])? 1: DBSIMPLE_SKIP,
 		($class!='')? $class: DBSIMPLE_SKIP,
-		($subclass!='')? $subclass: DBSIMPLE_SKIP
+		($subclass!='')? $subclass: DBSIMPLE_SKIP,
+		($slotsort!='')? $slotsort: DBSIMPLE_SKIP
 	);
 
 	$i=0;
@@ -65,7 +69,7 @@ $page = array(
 	'tab' => 0,
 	'type' => 0,
 	'typeid' => 0,
-	'path' => "[0, 0, ".$class.", ".$subclass."]",
+	'path' => "[0, 0, ".$class.", ".$subclass.", ".$slotsort."]",
 );
 $smarty->assign('page', $page);
 

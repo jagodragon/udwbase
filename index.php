@@ -92,9 +92,9 @@ switch($razdel)
 	case 'factions':
 		include 'factions.php';
 		break;
-        case 'forums&board':
-                include 'forum.php';
-                break;
+  case 'forums&board':
+    include 'forum.php';
+    break;
 	case 'item':
 		include 'item.php';
 		break;
