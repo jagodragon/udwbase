@@ -1,0 +1,52 @@
+<?php
+global $UDWBaseconf;
+
+// -- WORLD Database --
+$UDWBaseconf['world']['host']	= '127.0.0.1';
+$UDWBaseconf['world']['user']	= 'user';
+$UDWBaseconf['world']['pass']	= 'pass';
+$UDWBaseconf['world']['db']		= 'mangos_db';
+$UDWBaseconf['world']['table_prefix']	= ''; // optional table prefix
+// -- Realmd Database --
+$UDWBaseconf['realmd']['host']	= '127.0.0.1';
+$UDWBaseconf['realmd']['user']	= 'user';
+$UDWBaseconf['realmd']['pass']	= 'pass';
+$UDWBaseconf['realmd']['db']		= 'remd_db';
+$UDWBaseconf['realmd']['table_prefix']	= ''; // optional table prefix
+// Site Configuration
+$UDWBaseconf['udwbase']['name'] = 'udwbase';
+$UDWBaseconf['udwbase']['template'] = 'wowhead';
+$UDWBaseconf['udwbase']['cache_time'] = (60*60*24*7); // Time to keep cache in seconds (Default: 1 week)
+$UDWBaseconf['locale'] = 0;
+$UDWBaseconf['register'] = true;
+$UDWBaseconf['expansion'] = 2; // Used with register
+$UDWBaseconf['limit'] = 300;
+$UDWBaseconf['debug'] = false;
+// forum links
+$UDWBaseconf['forumextern'] = 1; // 1 = external forums 0 = internal forums (internal forums are not working)
+$UDWBaseconf['forum'] = 'http://puppieswowserve/forums'; // Relative linkto forums "/"
+        //all forum links following this are the part that follows the above string.
+        // ie: general link is  "http://puppieswowserve/forums/viewforum.php?f=2"
+        //     you should enter the folowing '/viewforum.php?f=2'
+        //     you can also enter '' if you the wat the link to be to the forum home page.
+$UDWBaseconf['wowgeneral'] = '/viewforum.php?f=2';
+$UDWBaseconf['wowhelp'] = '/viewforum.php?f=4';
+$UDWBaseconf['raids'] = '/viewforum.php?f=33';
+$UDWBaseconf['pvpforum'] = '/viewforum.php?f=34';
+$UDWBaseconf['profchat'] = '/viewforum.php?f=35';
+$UDWBasecone['newslink'] = '/..'; // i am using '/..' to send me back to my home page since my news is posted there.
+$UDWBaseconf['addon'] = '';
+        // class forum links
+$UDWBaseconf['classes']['dk']      = '/viewforum.php?f=23';
+$UDWBaseconf['classes']['druid']   = '/viewforum.php?f=24';
+$UDWBaseconf['classes']['hunter']  = '/viewforum.php?f=25';
+$UDWBaseconf['classes']['mage']    = '/viewforum.php?f=26';
+$UDWBaseconf['classes']['pally']   = '/viewforum.php?f=27';
+$UDWBaseconf['classes']['priest']  = '/viewforum.php?f=28';
+$UDWBaseconf['classes']['rogue']   = '/viewforum.php?f=29';
+$UDWBaseconf['classes']['shammy']  = '/viewforum.php?f=30';
+$UDWBaseconf['classes']['warlock'] = '/viewforum.php?f=31';
+$UDWBaseconf['classes']['warrior'] = '/viewforum.php?f=32';
+
+
+?>
